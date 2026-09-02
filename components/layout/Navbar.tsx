@@ -16,11 +16,12 @@ const navLinks = [
 
 interface NavbarProps {
   brandName?: string
-  logoUrl?: string | null
+  lightLogoUrl?: string | null
+  darkLogoUrl?: string | null
   whatsappNumber?: string | null
 }
 
-export function Navbar({ brandName = 'Haven Productions', logoUrl, whatsappNumber }: NavbarProps) {
+export function Navbar({ brandName = 'Haven Productions', lightLogoUrl, darkLogoUrl, whatsappNumber }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -30,29 +31,28 @@ export function Navbar({ brandName = 'Haven Productions', logoUrl, whatsappNumbe
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const currentLogo = scrolled ? (darkLogoUrl || lightLogoUrl) : (lightLogoUrl || darkLogoUrl)
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
           ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-black/5'
           : 'bg-transparent'
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+      <nav className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-end md:justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 shrink-0">
-          {logoUrl ? (
+        <Link href="/" className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 flex items-center shrink-0 group">
+          {currentLogo && (
             <Image
-              src={logoUrl}
+              src={currentLogo}
               alt={brandName}
-              width={120}
-              height={40}
-              className="h-8 w-auto object-contain"
+              width={160}
+              height={56}
+              className="h-12 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             />
-          ) : (
-            <span className={`font-bold text-xl tracking-tight transition-colors ${scrolled ? 'text-[#0B0B0C]' : 'text-white'}`}>
-              {brandName}
-            </span>
           )}
         </Link>
 
@@ -62,7 +62,7 @@ export function Navbar({ brandName = 'Haven Productions', logoUrl, whatsappNumbe
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm font-medium transition-colors hover:text-[#FF6A1A] ${
+              className={`text-sm font-medium transition-colors hover:text-[#E52521] ${
                 scrolled ? 'text-[#0B0B0C]/70' : 'text-white/80'
               }`}
             >
@@ -79,7 +79,7 @@ export function Navbar({ brandName = 'Haven Productions', logoUrl, whatsappNumbe
               target="_blank"
               rel="noopener noreferrer"
               className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${
-                scrolled ? 'text-[#0B0B0C]/70 hover:text-[#FF6A1A]' : 'text-white/70 hover:text-white'
+                scrolled ? 'text-[#0B0B0C]/70 hover:text-[#E52521]' : 'text-white/70 hover:text-white'
               }`}
             >
               <Phone className="w-4 h-4" />
@@ -115,7 +115,7 @@ export function Navbar({ brandName = 'Haven Productions', logoUrl, whatsappNumbe
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="px-3 py-3 text-[#0B0B0C] font-medium text-base hover:text-[#FF6A1A] hover:bg-[#FF6A1A]/5 rounded-xl transition-colors"
+                className="px-3 py-3 text-[#0B0B0C] font-medium text-base hover:text-[#E52521] hover:bg-[#E52521]/5 rounded-xl transition-colors"
               >
                 {link.label}
               </Link>
@@ -133,8 +133,10 @@ export function Navbar({ brandName = 'Haven Productions', logoUrl, whatsappNumbe
         </div>
       )}
 
+      </header>
+
       {/* Mobile sticky CTA bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-black/10 px-4 py-3 z-50 flex gap-3">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-black/10 px-4 py-3 z-50 flex gap-3 pb-safe">
         {whatsappNumber && (
           <a
             href={`https://wa.me/${whatsappNumber.replace(/\D/g, '')}`}
@@ -153,6 +155,6 @@ export function Navbar({ brandName = 'Haven Productions', logoUrl, whatsappNumbe
           Book a Call
         </Link>
       </div>
-    </header>
+    </>
   )
 }

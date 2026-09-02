@@ -1,8 +1,12 @@
 'use client'
 
-import { useEffect, ReactNode } from 'react'
+import { useEffect, ReactNode, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 export function LenisProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname()
+  const [lenisInstance, setLenisInstance] = useState<any>(null)
+
   useEffect(() => {
     let lenis: any = null
 
@@ -15,6 +19,8 @@ export function LenisProvider({ children }: { children: ReactNode }) {
           orientation: 'vertical',
           smoothWheel: true,
         })
+        
+        setLenisInstance(lenis)
 
         function raf(time: number) {
           lenis.raf(time)
@@ -32,6 +38,12 @@ export function LenisProvider({ children }: { children: ReactNode }) {
       if (lenis) lenis.destroy()
     }
   }, [])
+
+  useEffect(() => {
+    if (lenisInstance) {
+      lenisInstance.scrollTo(0, { immediate: true })
+    }
+  }, [pathname, lenisInstance])
 
   return <>{children}</>
 }

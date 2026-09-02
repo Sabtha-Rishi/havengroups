@@ -14,7 +14,8 @@ export interface Database {
           id: string
           brand_name: string
           tagline: string
-          logo_url: string | null
+          light_logo_url: string | null
+          dark_logo_url: string | null
           email: string
           phone: string
           address: string
@@ -49,10 +50,12 @@ export interface Database {
           collab_open: boolean
           sponsorship_spots_remaining: number | null
           featured: boolean
+          target_demo: string | null
+          media_gallery: Json | null
           created_at: string
           updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['events']['Row'], 'id' | 'created_at' | 'updated_at'>
+        Insert: Omit<Database['public']['Tables']['events']['Row'], 'id' | 'created_at' | 'updated_at'> & { target_demo?: string | null }
         Update: Partial<Database['public']['Tables']['events']['Insert']>
       }
       portfolio_items: {
@@ -120,6 +123,37 @@ export interface Database {
         }
         Insert: Omit<Database['public']['Tables']['sponsorship_inventory']['Row'], 'id' | 'created_at'>
         Update: Partial<Database['public']['Tables']['sponsorship_inventory']['Insert']>
+      }
+      team_members: {
+        Row: {
+          id: string
+          name: string
+          role: string
+          bio: string | null
+          photo_url: string | null
+          order_index: number
+          created_at: string
+        }
+        Insert: Omit<Database['public']['Tables']['team_members']['Row'], 'id' | 'created_at'>
+        Update: Partial<Database['public']['Tables']['team_members']['Insert']>
+      }
+      services: {
+        Row: {
+          id: string
+          slug: string
+          title: string
+          tagline: string | null
+          outcome: string | null
+          image_url: string | null
+          stat_text: string | null
+          icon_name: string | null
+          href: string
+          order_index: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: Omit<Database['public']['Tables']['services']['Row'], 'id' | 'created_at' | 'updated_at'>
+        Update: Partial<Database['public']['Tables']['services']['Insert']>
       }
     }
   }

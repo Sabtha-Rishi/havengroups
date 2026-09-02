@@ -5,7 +5,7 @@ import { Sparkles } from 'lucide-react'
 import { useState } from 'react'
 
 const themes = [
-  { id: 'modern', label: 'Modern', color: '#FF6A1A' },
+  { id: 'modern', label: 'Modern', color: '#E52521' },
   { id: 'premium', label: 'Premium', color: '#0B0B0C' },
   { id: 'professional', label: 'Pro', color: '#1a56ff' },
   { id: 'classic', label: 'Classic', color: '#7c5c3a' },
@@ -35,7 +35,7 @@ export function ThemeSwitcher() {
               />
               {t.label}
               {theme === t.id && (
-                <span className="ml-auto text-xs text-[#FF6A1A]">●</span>
+                <span className="ml-auto text-xs text-[#E52521]">●</span>
               )}
             </button>
           ))}
@@ -43,10 +43,10 @@ export function ThemeSwitcher() {
       )}
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 bg-black text-white px-4 py-2.5 rounded-full shadow-2xl border border-white/20 hover:border-[#FF6A1A]/50 transition-all text-sm font-medium"
+        className="flex items-center gap-2 bg-black text-white px-4 py-2.5 rounded-full shadow-2xl border border-white/20 hover:border-[#E52521]/50 transition-all text-sm font-medium"
         aria-label="Switch theme"
       >
-        <Sparkles className="w-4 h-4 text-[#FF6A1A]" />
+        <Sparkles className="w-4 h-4 text-[#E52521]" />
         <span>Theme</span>
       </button>
     </div>
